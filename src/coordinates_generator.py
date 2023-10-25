@@ -83,8 +83,15 @@ output_folder = 'src/coordinates'
 
 os.makedirs(output_folder, exist_ok=True)
 
-for font_name in 'abcdefghijklmnopqrstuvwxyz':
-    input_image_path = os.path.join(font_folder, f'{font_name}.png')
-    output_coordinates_path = os.path.join(output_folder, f'{font_name}.txt')
-    generate_coordinates(input_image_path, output_coordinates_path)
-    print(f'Generated coordinates for font: {font_name}')
+# for font_name in 'abcdefghijklmnopqrstuvwxyz':
+    # input_image_path = os.path.join(font_folder, f'{font_name}.png')
+    # output_coordinates_path = os.path.join(output_folder, f'{font_name}.txt')
+    # generate_coordinates(input_image_path, output_coordinates_path)
+    # print(f'Generated coordinates for font: {font_name}')
+
+font_name = 'love'
+
+input_image_path = os.path.join(font_folder, f'{font_name}.png')
+output_coordinates_path = os.path.join(output_folder, f'{font_name}.txt')
+generate_coordinates(input_image_path, output_coordinates_path)
+print(f'Generated coordinates for font: {font_name}')

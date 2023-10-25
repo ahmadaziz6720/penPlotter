@@ -32,7 +32,7 @@ send_gcode("M220 S1000")
 send_gcode("G0 X0 Y0 Z2")  
 
 send_gcode("M300 S200 P200") # beep
-send_gcode("G0 X45 Y130 Z2") # home for pen
+send_gcode("G0 X82.5 Y75 Z2") # home for pen
 send_gcode("G92 X0 Y0")
 
 while 1:
@@ -49,10 +49,38 @@ while 1:
     letters = []
     # read coordinates from file
     coordinates_folder = 'src/coordinates'
+    parse_emoji = False
+    emoji_name = ''
     for letter in string:
+        if letter == '{' or letter == '}':
+            parse_emoji = not parse_emoji
+            if not parse_emoji:
+                with open(os.path.join(coordinates_folder, f'{emoji_name}.txt'), 'r') as file:
+                    letter_width = 0
+                    letter_coordinates = []
+                    for line in file:
+                        line = line.strip()
+                        if line == 'z':
+                            letter_coordinates.append('z')
+                        else:
+                            x, y = line.split(',')
+                            letter_coordinates.append((float(x)*font_size, float(y)*font_size))
+                            if float(x)*font_size > letter_width:
+                                letter_width = float(x)*font_size
+                    # letter_coordinates.append("w")
+                    letter_coordinates.append(letter_width)
+                    letters.append(letter_coordinates)
+                emoji_name = ''
+            continue
+        if parse_emoji:
+            emoji_name += letter
+            continue
         if letter == ' ':
             letters.append('s')
             continue
+        if letter == '.':
+            letter = 'dot'
+    
         with open(os.path.join(coordinates_folder, f'{letter}.txt'), 'r') as file:
             letter_width = 0
             letter_coordinates = []
@@ -94,7 +122,7 @@ while 1:
                 else:
                     continue
                 
-        # print("------------next letter-----------")
+        print("------------next letter-----------")
         if letters.index(letter) != len(letters)-1 and letter != 's':
             send_gcode("G0 Z1")
             z = True

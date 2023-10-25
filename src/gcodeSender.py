@@ -33,14 +33,15 @@ G28 X Y             # Homeing
 M300 S440 P200      # Play buzzer
 M220 S500           # Set speed
 """
-# send_gcode("G28")
+send_gcode("G28")
 # send_gcode("M220 S500")
 # send_gcode("G0 Z1")
 # send_gcode("G92 X0 Y0 Z0")
 # send_gcode("M300 S440 P200")
 # send_gcode("M300 S200 P200")
-send_gcode("G0 X50 Y170 Z1")
-# send_gcode("G0 X50 Y110 Z0")
+# send_gcode("G0 Z0")
+# send_gcode("G0 X45 Y125")
+# send_gcode("G0 X240")
 # send_gcode("G0 X150 Y110 Z0")
 # send_gcode("G0 X150 Y10 Z0")
 # send_gcode("G0 X50 Y10 Z0")
@@ -55,7 +56,13 @@ send_gcode("G0 X50 Y170 Z1")
 #     print(line.strip())
 #     send_gcode(line.strip())
     
-send_gcode("M300 S440 P200")
+# send_gcode("M300 S440 P200")
 send_gcode("M300 S200 P200")
+
+while 1:
+    pos = 'G0'
+    pos += input("Masukkan posisi X Y Z: ")
+    send_gcode("G0 Z2")
+    send_gcode(pos)
 
 ser.close()
